@@ -2,7 +2,7 @@ version: "3"
 
 services:
   mumble:
-    image: mumble:1.2.19
+    image: teropietila/lanparty-mumble:1.2.19
     ports:
       - "64738:64738"
     volumes:
@@ -14,7 +14,7 @@ services:
 
 
   opendchub:
-    image: opendchub:0.8.3
+    image: teropietila/lanparty-opendchub:0.8.3
     ports:
       - "411:411"
       - "53696:53696"
