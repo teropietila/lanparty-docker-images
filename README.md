@@ -24,4 +24,4 @@ The following services being deployed to LanParty server are..
 
 LanParty organizers wishing to take advantage of this projects already built images, [should read these instructions](docker/DEPLOY.md)
 
-Maintainers of the services, who wish to develop, update and package the services, should read [these instructions](docker/BUILD.md)
+Maintainers of the services, who wish to develop, update and package the services, [should read these instructions](docker/BUILD.md)
