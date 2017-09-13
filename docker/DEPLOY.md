@@ -26,9 +26,11 @@ Make sure the LanParty servers firewall will allow TCP connections to the follow
 ## Firing up the service stack ##
 
 You can copy the docker/docker-compose.yml file to any locations you wish in the LanParty server. Or you can run it from this projects cloned folder.
-Change the current workdir to folder you chose and simply run `docker-compose up -d`
+Change the current workdir to folder you chose and simply run `docker-compose up`.
 
-This downloads (and caches) the images from Docker Hub, sets up network and volumes for the containers and launches the services.
+This downloads (and caches) the images from Docker Hub, sets up network and volumes for the containers and launches the services in foreground. You can
+observe the service logs in this mode. By pressing Ctrl-C the service stack is shut down. Should you wish to run the services in background mode,
+use `docker-compose up -d` and shut down the service stack by `docker-compose down`
 
 ### Configuration ###
 
