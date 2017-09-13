@@ -1,6 +1,6 @@
 # LanParty server #
 
-This projects intention is to simplify the installation of service in LAN parties organized by Bairakyn ry.
+This projects intention is to simplify the installation of service in LAN parties organized by Bairakyn ry members.
 With this project, the person responsible for organizing the event, can configure the main server more easily
 without every organizer needing to do the same installation setups every time.
 
@@ -12,111 +12,84 @@ without every organizer needing to do the same installation setups every time.
 
 ### OpenDCHub ###
 
-[Server for OpenDc++ clients](http://opendchub.sourceforge.net/) to use when sharing files among gamers is required.
+[Server for OpenDC++ clients](http://opendchub.sourceforge.net/) to use when sharing files among gamers is required.
 
 ## Requirements ##
 
 ### Hardware ###
 
-Any relatively new hardware will suffice running the services in this project. 
+Any relatively new hardware will suffice when running the services in this project. The Virtualbox instance in this project
+is restricted to single CPU and 512MB RAM.
 
-### Software ### 
+### Software ###
 
-#### Production ####
+The main server is required to have installed
+  * [Virtualbox, 5.1.26 or later](https://www.virtualbox.org)
+  * [Vagrant, 1.9.7 or later](https://www.vagrantup.com/)
+  * SSH client (OpenSSH, [Putty for Windows](http://www.putty.org/))
 
-The main server is required to have Docker Community Edition (CE) installed and running with version >= 17.06. Also the docker-compose should be
-installed with version >= 1.15.0. The Docker installation is supposed to be in non-swarm-mode or at least in single manager setup. Any other kind
-of distribution of these services are untested. Lastly, (almost) any git version will suffice for cloning this project to the main server
-and deploying the services.
+Vagrant is a tool for building and managing virtual machine environments and it supports multiple backends. One of these
+backends is Virtualbox, a virtualization software. All of them should run in Windows, Linux or Mac OS X. There are, as always, some gotchas
+when working on these environments but some decent googling should provide support for your problems. Logging inside the guest machine requires
+the SSH client.
 
-OS provision scripts are only for Red Hat Enterprise Linux 7 (RHEL7) or its derivates (e.g. Centos 7). These are the only supported operating systems for now
-but any decent sysop can provision his own server with the previously mentioned packages. And if doing so, should also contribute to this project
-by commiting his provision scripts to the project
+## Installation ##
 
-#### Development ####
+### OS ###
 
-For developing purposes of this project, the developers machine must have the previosly mentioned packages installed and in addition, 
-the Vagrant and Virtualbox softwares with version >= 1.9.7 and >= 5.1.26 respectively. This project includes the Vagrantfile for developers
-to easily use the same kind of environment.
+Install an operating system to the server, a recently new Windows, Linux or Mac OS X should suffice. Instructions on doing so is beyond this project
 
+### Vagrant / VirtualBox / SSH Client ###
 
-## Deploying the Services ##
+After installing the OS, install the Vagrant, Virtualbox and SSH client.
 
-### Main Server ###
+Some places to start and learn from with different operating systems:
+  * [Windows](https://www.sitepoint.com/getting-started-vagrant-windows/) (referenced Sep 13th, 2017)
+  * [Linux (Ubuntu)](https://www.olindata.com/en/blog/2014/07/installing-vagrant-and-virtual-box-ubuntu-1404-lts) (referenced Sep 13th, 2017)
+  * [Mac OS X](https://gist.github.com/tomysmile/0618f1aa16341706940ed36b423b431c) (referenced Sep 13th, 2017)
 
-#### OS ####
+### Firewall ###
 
-Install any of the previously mentioned operating systems to the server. Instructions to do so are beyond this project.
-
-#### Git ####
-
-Install the before mentioned git version control software and clone the projects repository to the server. e.g.
-
-`git clone https://url/to/the/repository.git`
-
-#### Firewall ####
-
-Make sure the main servers firewall will allow TCP connections to the following ports:
+Make sure the physical servers firewall will allow TCP connections to the following ports:
   * 411 (OpenDCHub client connetions)
   * 53696 (OpenDCHub admin telnet connections)
   * 64738 (Mumble client connections)
 
-#### Docker CE ####
+### Firing up the services ###
 
-Install by hand the previosly mentioned Docker and docker-compose packages with correct versions, or if you installed the RHEL7/Centos7 operating system,
-you can execute the scripts in provision directory with following parameters:
+Run `vagrant up`.
 
-```bash
-./provision/docker-engine.sh docker-ce-17.06.0.ce-1.el7.centos.x86_64
-./provision/docker-compose.sh 1.15.0
+A guest machine will be created and provisioned with scripts from the provision/ folder. They install Docker Community Edition (CE) and
+docker-compose and start the Docker as single host daemon (non-swarm-mode). The containers inside the guest machine are built and run
+at startup.
+
+### Setting the administrator password ###
+
+The `vagrant up` command reads hosts environment variable named `ADMIN_PASS` and passes it to the guest machine. The guest
+machine passes it to the Docker containers. This variable is used as password when setting the SuperUser account in Mumble and admin
+account in OpenDCHub. If the environment variable is empty or not given, a password `foobar` will be used.
+
+The environment variable retains inside the guest machine so resetting the password requires you to run
 ```
-
-You can launch the service stack with the following command:
-`sudo /usr/local/bin/docker-compose up -d`
-
-and you can bring the service stack down with:
-`sudo /usr/local/bin/docker-compose down`
-
-Environment variable ADMIN_PASS can be given when starting the service stack as:
-`ADMIN_PASS=myVerySecretPassword sudo /usr/local/bin/docker-compose up -d`
-
-The ADMIN_PASS environment variable will the set given password as the Mumble SuperUser password and OpenDCHub admin password. If
-the environment variable is empty or not given, a password `foobar` will be used. You can easily change the password when restarting
-the stack with:
+vagrant destroy
+ADMIN_PASS=myVerySecretPassword
+vagrant up
 ```
-ADMIN_PASS=passwordOne sudo /usr/local/bin/docker-compose up -d
-sudo /usr/local/bin/docker-compose down
-ADMIN_PASS=passwordTwo sudo /usr/local/bin/docker-compose up -d
-```
-
-Restarting the service stack retains the data of the services, but should you wish to start from scratch, you can run
-the following commands when the stack is up:
-```
-sudo /usr/local/bin/docker-compose down
-sudo docker system prune
-ADMIN_PASS=myVerySecretPassword sudo /usr/local/bin/docker-compose up -d
-```
-
-By doing so, you need to configure every service again. This, however, doesn't trigger the building of the Docker
-images again. Should you wish to do so, run `sudo docker images -q | xargs sudo docker rmi` followed by the stack startup
-`ADMIN_PASS=myVerySecretPassword sudo /usr/local/bin/docker-compose up -d`
 
 #### Murmur (Mumble server) ####
 
-Connect with the username `SuperUser` and supply the ADMIN_PASS you defined earlier when starting the service stack. You can now
-administer the server via the Mumble client (adding channels, setting ACLs, etc). How you wish to setup the service is up to you,
-[some instructions](https://wiki.mumble.info/wiki/Main_Page) may be helpful.
+Connect with the username `SuperUser` and supply the `ADMIN_PASS` you defined earlier. You can now administer the server via the
+Mumble client (adding channels, setting ACLs, etc). How you wish to setup the service is up to you, [some instructions](https://wiki.mumble.info/wiki/Main_Page) may be helpful.
 
-Lastly, connect to the server with your regular username, accept the self-signed certificate and click Self -> Register. Instruct the 
+Lastly, connect to the server with your regular username, accept the self-signed certificate and click Self -> Register. Instruct the
 other gamers to do the same thing.
 
 One way of administering the server is registering as regular user and giving admin permission to that user while logged in as SuperUser.
 
-
 #### Open DC Hub ####
 
 Configuring the hub is supposed to be done via telnet connection. Run `telnet 10.0.0.1 53696` where the ipv4 address
-is the actual address of your main server. Login by giving the command (with the extra $ and | characters) and the ADMIN_PASS
+is the actual address of your physical server. Log in by giving the command (with the extra $ and | characters) and the `ADMIN_PASS`
 you defined earlier: `$adminpass myVerySecretPassword|`
 
 You can then set the Message Of The Day or other options with the following commands:
@@ -126,11 +99,3 @@ $set key value|
 $commands|
 $exit|
 ```
-
-## Final Notes ##
-
-While this is not a fully install-and-forget setup, it eases out some of the server administering responsibilities of the organizer.
-Every organizer can have some degree of customization options should he want to use that.
-
-There can be an option of building an actual full blown virtual server that can be used in every Lanparty but this project does not require 
-you to do so (but it doesn't prohibit you to do so either).
