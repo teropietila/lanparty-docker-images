@@ -1,14 +1,14 @@
 FROM centos:7
 
-ARG source_url
+ARG opendchub_src
 
 RUN yum install -y \
-	wget gzip \
-	gcc perl perl-ExtUtils-Embed make && \
+	gzip gcc perl perl-ExtUtils-Embed make && \
 	yum clean all
 
+COPY src/$opendchub_src /tmp/opendchub.tar.gzip
+
 RUN mkdir /opt/opendchub && \
-	wget -O /tmp/opendchub.tar.gzip --progress=dot:mega $source_url  && \
 	tar -xvzf /tmp/opendchub.tar.gzip -C /opt/opendchub --strip 1 && \
 	rm -f /tmp/opendchub.tar.gzip
 
