@@ -14,7 +14,7 @@ Vagrant.configure("2") do |config|
 
 	config.vm.define "lanparty" do |host|
 		host.vm.synced_folder ".", "/vagrant", disabled: true
-		host.vm.synced_folder "docker", "/docker", type: "rsync"
+		host.vm.synced_folder "docker", "/docker"
 		
 		host.vm.network "private_network", ip: "10.0.0.5"
 		host.vm.network "forwarded_port", guest: 64738, host: 64738
