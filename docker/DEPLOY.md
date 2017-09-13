@@ -37,7 +37,7 @@ use `docker-compose up -d` and shut down the service stack by `docker-compose do
 ### Setting the administrator password ###
 
 Each service is deployed with default master password `foobar`. Should you wish to change this password, you need to launch the stack with
-environment variable `ADMIN_PASS`. For example, starting the stack with command `$ ADMIN_PASS=myVerySecretPassword docker-compose run -d`. The default
+environment variable `ADMIN_PASS`. For example, starting the stack with command `ADMIN_PASS=myVerySecretPassword docker-compose run -d`. The default
 master password is changed every time the stack is launched.
 
 How you can set one-off environment variables in your chosen OS, is beyond the scope for this tutorial.
