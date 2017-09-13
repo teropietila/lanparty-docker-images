@@ -32,7 +32,7 @@ This downloads (and caches) the images from Docker Hub, sets up network and volu
 observe the service logs in this mode. By pressing Ctrl-C the service stack is shut down. Should you wish to run the services in background mode,
 use `docker-compose up -d` and shut down the service stack by `docker-compose down`
 
-### Configuration ###
+## Configuration ##
 
 ### Setting the administrator password ###
 
