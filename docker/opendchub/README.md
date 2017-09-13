@@ -7,7 +7,7 @@ Check the newest version from [Opend DC hub download page](https://sourceforge.n
 docker build -t teropietila/lanparty-opendchub:<opendchub-version> -t teropietila/lanparty-mumble:latest --build-arg opendchub_src=<name-of-the-file-in-src-folder> .
 ```
 
-where <opendchub-version> is the version being built (e.g. 0.8.3) and <name-of-the-file-in-src-folder> should be the filename in src/ folder
+where *opendchub-version* is the version being built (e.g. 0.8.3) and *name-of-the-file-in-src-folder* should be the filename in src/ folder
 
 ## How to push the image
 
