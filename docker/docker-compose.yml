@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  mumble:
+    image: mumble:1.2.19
+    build:
+      context: ./mumble
+      args:
+        source_url: https://github.com/mumble-voip/mumble/releases/download/1.2.19/murmur-static_x86-1.2.19.tar.bz2
+    ports:
+      - "64738:64738"
+    volumes:
+      - murmur-data:/var/local/murmur
+    networks:
+      - lanparty
+    environment:
+      - ADMIN_PASS
+
+
+  opendchub:
+    image: opendchub:0.8.3
+    build:
+      context: ./opendchub
+      args:
+        source_url: https://downloads.sourceforge.net/project/opendchub/Open%20DC%20Hub/0.8.3/opendchub-0.8.3.tar.gz
+    ports:
+      - "411:411"
+      - "53696:53696"
+    volumes:
+      - opendchub-data:/root/.opendchub
+    networks:
+      - lanparty
+    environment:
+      - ADMIN_PASS
+
+
+networks:
+  lanparty:
+
+
+volumes:
+  opendchub-data:
+  murmur-data:

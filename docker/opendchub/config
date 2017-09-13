@@ -1,0 +1,65 @@
+hub_name = "Lanparty Open DC Hub"
+
+max_users = 1000
+
+hub_full_mess = "Sorry, this hub is full at the moment"
+
+hub_description = "A Unix/Linux Direct Connect Hub"
+
+min_share = 0
+
+min_upload_slots = 0
+
+admin_pass = ""
+
+default_pass = ""
+
+link_pass = ""
+
+users_per_fork = 1000
+
+listening_port = 411
+
+admin_port = 53696
+
+admin_localhost = 0
+
+hublist_upload = 0
+
+public_hub_host = ""
+
+hub_hostname = "172.18.0.2"
+
+min_version = ""
+
+redirect_host = ""
+
+registered_only = 0
+
+check_key = 0
+
+reverse_dns = 0
+
+ban_overrides_allow = 0
+
+verbosity = 4
+
+redir_on_min_share = 1
+
+syslog_enable = 0
+
+searchcheck_exclude_internal = 1
+
+searchcheck_exclude_all = 0
+
+kick_bantime = 1
+
+searchspam_time = 1
+
+max_email_len = 50
+
+max_desc_len = 100
+
+crypt_enable = 1
+
+
