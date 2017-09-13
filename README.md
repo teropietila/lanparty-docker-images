@@ -63,6 +63,8 @@ A guest machine will be created and provisioned with scripts from the provision/
 docker-compose and start the Docker as single host daemon (non-swarm-mode). The containers inside the guest machine are built and run
 at startup.
 
+## Configuration
+
 ### Setting the administrator password ###
 
 The `vagrant up` command reads hosts environment variable named `ADMIN_PASS` and passes it to the guest machine. The guest
@@ -76,7 +78,7 @@ ADMIN_PASS=myVerySecretPassword
 vagrant up
 ```
 
-#### Murmur (Mumble server) ####
+### Murmur (Mumble server) ###
 
 Connect with the username `SuperUser` and supply the `ADMIN_PASS` you defined earlier. You can now administer the server via the
 Mumble client (adding channels, setting ACLs, etc). How you wish to setup the service is up to you, [some instructions](https://wiki.mumble.info/wiki/Main_Page) may be helpful.
@@ -86,7 +88,7 @@ other gamers to do the same thing.
 
 One way of administering the server is registering as regular user and giving admin permission to that user while logged in as SuperUser.
 
-#### Open DC Hub ####
+### Open DC Hub ###
 
 Configuring the hub is supposed to be done via telnet connection. Run `telnet 10.0.0.1 53696` where the ipv4 address
 is the actual address of your physical server. Log in by giving the command (with the extra $ and | characters) and the `ADMIN_PASS`
